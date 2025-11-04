@@ -1,32 +1,19 @@
-# ---------- Stage 1: Build Angular App ----------
-FROM node:20 AS build
+#Frontend Dockerfile
+
+# Stage 1: Build Angular App
+FROM node:18-alpine AS builder 
 
 WORKDIR /app
-
-# Install dependencies
 COPY package*.json ./
 RUN npm install
-
-# Copy source
 COPY . .
+RUN npm install -g @angular/cli && \
+    ng build --configuration production
 
-# Build Angular app
-RUN npm run build --configuration=production
-
-# ---------- Stage 2: Serve with Nginx ----------
-FROM nginx:1.25-alpine
-
-
-
-# Copy built app
-COPY --from=build /app/dist/ /usr/share/nginx/html/
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
+COPY --from=builder /app/dist/ /usr/share/nginx/html
 
 
-
-# Add bash for runtime replacement
-RUN apk add --no-cache bash
-
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
-EXPOSE 80
+EXPOSE 8081
+CMD ["nginx", "-g", "daemon off;"]
