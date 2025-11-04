@@ -29,12 +29,12 @@ COPY src/assets/config.template.json /usr/share/nginx/html/assets/config.templat
 RUN apk add --no-cache bash
 
 # Entrypoint to replace runtime vars in config.json
-RUN echo '#!/bin/bash\n\
-set -e\n\
-cp /usr/share/nginx/html/assets/config.template.json /usr/share/nginx/html/assets/config.json\n\
-sed -i "s|__API_URL__|${NG_APP_URL}|g" /usr/share/nginx/html/assets/config.json\n\
-echo "✅ Environment variables injected into config.json"\n\
-nginx -g "daemon off;"' > /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh
+# RUN echo '#!/bin/bash\n\
+# set -e\n\
+# cp /usr/share/nginx/html/assets/config.template.json /usr/share/nginx/html/assets/config.json\n\
+# sed -i "s|__API_URL__|${NG_APP_URL}|g" /usr/share/nginx/html/assets/config.json\n\
+# echo "✅ Environment variables injected into config.json"\n\
+# nginx -g "daemon off;"' > /docker-entrypoint.sh && chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
