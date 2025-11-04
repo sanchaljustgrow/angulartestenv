@@ -16,8 +16,7 @@ RUN npm run build --configuration=production
 # ---------- Stage 2: Serve with Nginx ----------
 FROM nginx:1.25-alpine
 
-# Environment variable (can override at runtime)
-ENV NG_APP_URL="https://task.thingsrms.com/v1"
+
 
 # Copy built app
 COPY --from=build /app/dist/ /usr/share/nginx/html/
