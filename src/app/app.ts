@@ -16,7 +16,7 @@ export class App {
   private testURL: string;
 
   constructor(private http: HttpClient, private appConfig: AppConfigService) {
-    this.testURL = this.appConfig.get('NG_APP_URL', 'https://task.thingsrms.com/v1');
+    this.testURL = this.appConfig.get('NG_APP_URL');
   }
 
   ngOnInit() {
